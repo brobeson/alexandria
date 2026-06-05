@@ -11,6 +11,8 @@ project(
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
+add_subdirectory(include)
+
 option(
   BUILD_TESTING
   "Enable or disable building Alexandria tests"
