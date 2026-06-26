@@ -6,6 +6,7 @@ target_sources(
   INTERFACE
   FILE_SET HEADERS
   FILES
+    alexandria/angle.hpp
     alexandria/errors.hpp
     alexandria/range.hpp
     alexandria/thread_safe.hpp
