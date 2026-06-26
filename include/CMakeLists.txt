@@ -5,5 +5,8 @@ target_sources(
   alexandria.alexandria
   INTERFACE
   FILE_SET HEADERS
-  FILES alexandria/range.hpp
+  FILES
+    alexandria/errors.hpp
+    alexandria/range.hpp
+    alexandria/thread_safe.hpp
 )
