@@ -1,15 +1,20 @@
-#ifndef ALEXANDRIA_RANGE_HPP
-#define ALEXANDRIA_RANGE_HPP
+#ifndef ALEXANDRIA_INTERVAL_HPP
+#define ALEXANDRIA_INTERVAL_HPP
 
 #include <stdexcept>
 #include <type_traits>
 
 namespace alex
 {
+  /**
+   * \brief A mathematical interval and associated operations
+   * \tparam T A numeric type of data for the interval.
+   */
   template <typename T>
-  class range final
+  class interval final
   {
   public:
+    /// The type of numeric data for this interval
     using value_type = std::remove_cvref_t<T>;
 
   private:
@@ -18,31 +23,36 @@ namespace alex
 
   public:
     /**
-     * \brief Construct a range object.
-     * \param[in] min,max The bounds of the range. \a min must be less than
+     * \brief Construct an interval object.
+     * \param[in] min,max The bounds of the interval. \a min must be less than
      * \a max.
-     * \throw std::invalid_argument if \$ max \le min \$
+     * \throw alex::unmet_expectation if \$ max \le min \$
      */
-    constexpr range(value_type min, value_type max)
+    constexpr interval(value_type min, value_type max)
         : m_minimum{std::move(min)}, m_maximum{std::move(max)}
     {
-      if (m_maximum <= m_minimum)
-      {
-        throw std::invalid_argument{"alex::range minimum must be less than maximum"};
-      }
+      ALEX_EXPECTDS(m_minimum < m_maximum)
     }
 
-    constexpr range(const range &) = default;
-    constexpr range(range &&) = default;
-    ~range() = default;
+    /// Copy an interval.
+    constexpr interval(const interval &) = default;
 
-    constexpr range &operator=(const range &) = default;
-    constexpr range &operator=(range &&) = default;
+    /// Move an interval.
+    constexpr interval(interval &&) = default;
 
-    /// \return the minimum bound of the range
+    /// Destruct an interval.
+    ~interval() = default;
+
+    /// Copy-assign an interval.
+    constexpr interval &operator=(const interval &) = default;
+
+    /// Move-assign an interval.
+    constexpr interval &operator=(interval &&) = default;
+
+    /// \return the minimum bound of the interval
     [[nodiscard]] constexpr auto minimum() const noexcept { return m_minimum; }
 
-    /// \return the maximum bound of the range
+    /// \return the maximum bound of the interval
     [[nodiscard]] constexpr auto maximum() const noexcept { return m_maximum; }
 
     /// \return \$ maximum() - minimum() \$
@@ -52,8 +62,8 @@ namespace alex
     }
 
     /**
-     * \brief Check if the range contains a specific value.
-     * \param[in] v Check if this value is within the range.
+     * \brief Check if the interval contains a specific value.
+     * \param[in] v Check if this value is within the interval.
      * \retval true \$ minimum() \le v \le maximum() \$
      * \retval false \$ v \lt minimum() \$ or \$ maximum() \lt v \$
      */
