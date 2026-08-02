@@ -1,15 +1,15 @@
 if(NOT TARGET Catch2::Catch2WithMain)
-  list(APPEND CMAKE_MODULE_PATH "${alexandria_SOURCE_DIR}/cmake")
-  include(CPM)
-  CPMAddPackage(NAME Catch2 GITHUB_REPOSITORY catchorg/Catch2 VERSION 3.15.0 SYSTEM)
-  list(APPEND CMAKE_MODULE_PATH "${Catch2_SOURCE_DIR}/extras")
+  include("${alexandria_SOURCE_DIR}/cmake/CPM.cmake")
+  CPMAddPackage("gh:catchorg/Catch2@3.15.0" SYSTEM)
+  list(APPEND CMAKE_MODULE_PATH $"{Catch2_SOURCE_DIR}/extras")
 endif()
-include(CMakePrintHelpers)
-cmake_print_variables(Catch2_SOURCE_DIR)
-# return()
 include(Catch)
-
-add_executable(alexandria.test.range)
-target_sources(alexandria.test.range PRIVATE alexandria/range_test.cpp)
-target_link_libraries(alexandria.test.range PRIVATE alexandria::alexandria Catch2::Catch2WithMain)
-catch_discover_tests(alexandria.test.range ADD_TAGS_AS_LABELS)
+set(TESTS angle range)
+foreach(TEST IN LISTS TESTS)
+  add_executable(alexandria.test.${TEST} ${TEST}_test.cpp)
+  target_link_libraries(
+    alexandria.test.${TEST}
+    PRIVATE alexandria::alexandria Catch2::Catch2WithMain
+  )
+  catch_discover_tests(alexandria.test.${TEST} ADD_TAGS_AS_LABELS)
+endforeach()
