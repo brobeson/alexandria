@@ -4,7 +4,7 @@ if(NOT TARGET Catch2::Catch2WithMain)
   list(APPEND CMAKE_MODULE_PATH $"{Catch2_SOURCE_DIR}/extras")
 endif()
 include(Catch)
-set(TESTS angle range)
+set(TESTS angle animation_clock range)
 foreach(TEST IN LISTS TESTS)
   add_executable(alexandria.test.${TEST} ${TEST}_test.cpp)
   target_link_libraries(
