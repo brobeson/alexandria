@@ -1,6 +1,7 @@
 #ifndef ALEXANDRIA_ANGLE_HPP
 #define ALEXANDRIA_ANGLE_HPP
 
+#include <numbers>
 #include <ratio>
 
 namespace alexandria
@@ -136,6 +137,7 @@ namespace alexandria
   using arcminutes = angle<int32_t, std::ratio<60, 1>>;
   using degrees = angle<int32_t, std::ratio<3600, 1>>;
   using hours = angle<int32_t, std::ratio<54'000, 1>>;
+  using radians = angle<double, std::ratio<std::numbers::pi, 180 * 60 * 60>>;
 
   namespace literals
   {
