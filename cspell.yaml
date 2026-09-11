@@ -1,0 +1,4 @@
+version: "0.2"
+useGitignore: true
+dictionaries: [cpp, cpp-refined]
+words: [brobeson]
