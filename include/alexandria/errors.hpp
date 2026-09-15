@@ -11,7 +11,7 @@ namespace alex {
   /// Thrown when a function precondition or class invariant fails.
   struct unmet_expectation: public std::logic_error {
     /**
-     * \brief Construct an unmet_expection exception.
+     * \brief Construct an unmet_expectation exception.
      * \param[in] message An explanation of the failed precondition or invariant.
      */
     explicit unmet_expectation(const char* const message):
@@ -30,7 +30,7 @@ namespace alex {
  * \throws alex::unmet_expectation if \a condition is `false`
  * \warning This macro assumes the condition is pass more often that fail. It
  * uses `[[unlikely]]` for the failure case. You should profile your code to
- * ensure this assumption doesn't deoptimize your code.
+ * ensure this assumption doesn't impair your code.
  */
 #define ALEX_EXPECTS(condition) \
   if (!(condition)) [[unlikely]] {            \

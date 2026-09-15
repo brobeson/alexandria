@@ -1,4 +1,4 @@
-name: Auto Add to Project
+name: Build & Test
 on:
   push:
   pull_request:
@@ -8,3 +8,20 @@ jobs:
   projectFiles:
     name: Project File Quality
     uses: brobeson/SupportFileQuality/.github/workflows/support_files.yaml@v1
+
+  cppFiles:
+    name: C++ Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --assume-yes --no-install-recommends clang-format-20
+      - name: Clone the repository
+        uses: actions/checkout@v7
+      - name: Check clang-format
+        run: |
+          shopt -s globstar
+          clang-format-20 --version
+          clang-format-20 --style=LLVM --dump-config
+          # clang-format-20 -Werror --dry-run --style=file **/*.[ch]pp
