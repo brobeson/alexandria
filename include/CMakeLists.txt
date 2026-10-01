@@ -8,6 +8,7 @@ target_sources(
   FILES
     alexandria/angle.hpp
     alexandria/errors.hpp
+    alexandria/interval.hpp
     alexandria/range.hpp
     alexandria/thread_safe.hpp
 )

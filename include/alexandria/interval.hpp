@@ -31,7 +31,7 @@ namespace alex
     constexpr interval(value_type min, value_type max)
         : m_minimum{std::move(min)}, m_maximum{std::move(max)}
     {
-      ALEX_EXPECTDS(m_minimum < m_maximum)
+      ALEX_EXPECTS(m_minimum < m_maximum)
     }
 
     /// Copy an interval.
