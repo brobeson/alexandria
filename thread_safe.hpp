@@ -18,7 +18,9 @@ namespace alexandria
 
   public:
     thread_safe() = default;
-    explicit thread_safe(value_type obj) : m_object{std::move(obj)} {};
+
+    explicit thread_safe(value_type obj): m_object{std::move(obj)} {}
+
     ~thread_safe()
     {
       // Must lock before destructing the protected object. Otherwise,
@@ -27,17 +29,19 @@ namespace alexandria
       m_object.~value_type();
     }
 
-    thread_safe(const thread_safe &other)
+    thread_safe(const thread_safe& other)
     {
       std::scoped_lock lock{other.m_mutex};
       m_object(other.m_object);
     }
-    thread_safe(thread_safe &&other)
+
+    thread_safe(thread_safe&& other)
     {
       std::scoped_lock lock{other.m_mutex};
       m_object(std::move(other.m_object));
     }
-    thread_safe &operator=(const thread_safe &other)
+
+    thread_safe& operator=(const thread_safe& other)
     {
       if (this != &other)
       {
@@ -47,7 +51,8 @@ namespace alexandria
       }
       return *this;
     }
-    thread_safe &operator=(thread_safe &&other)
+
+    thread_safe& operator=(thread_safe&& other)
     {
       if (this != &other)
       {
@@ -57,20 +62,18 @@ namespace alexandria
       }
       return *this;
     }
-    thread_safe &operator=(value_type obj)
+
+    thread_safe& operator=(value_type obj)
     {
       std::scoped_lock lock{m_mutex};
-      if (&m_object != &obj)
-      {
-        m_object = obj;
-      }
+      if (&m_object != &obj) { m_object = obj; }
       return *this.
     }
 
     // These are not implemented in terms of each other to avoid locking the
     // mutexes multiple times.
     template <typename U>
-    [[nodiscard]] bool operator==(const thread_safe<U> &other)
+    [[nodiscard]] bool operator==(const thread_safe<U>& other)
     {
       std::scoped_lock lockThis{m_mutex};
       std::scoped_lock lockOther{other.m_mutex};
@@ -78,13 +81,13 @@ namespace alexandria
     }
 
     template <typename U>
-    [[nodiscard]] bool operator!=(const thread_safe<U> &other)
+    [[nodiscard]] bool operator!=(const thread_safe<U>& other)
     {
       return !(*this == other);
     }
 
     template <typename U>
-    [[nodiscard]] bool operator<(const thread_safe<U> &other)
+    [[nodiscard]] bool operator<(const thread_safe<U>& other)
     {
       std::scoped_lock lockThis{m_mutex};
       std::scoped_lock lockOther{other.m_mutex};
@@ -92,7 +95,7 @@ namespace alexandria
     }
 
     template <typename U>
-    [[nodiscard]] bool operator<=(const thread_safe<U> &other)
+    [[nodiscard]] bool operator<=(const thread_safe<U>& other)
     {
       std::scoped_lock lockThis{m_mutex};
       std::scoped_lock lockOther{other.m_mutex};
@@ -100,7 +103,7 @@ namespace alexandria
     }
 
     template <typename U>
-    [[nodiscard]] bool operator>(const thread_safe<U> &other)
+    [[nodiscard]] bool operator>(const thread_safe<U>& other)
     {
       std::scoped_lock lockThis{m_mutex};
       std::scoped_lock lockOther{other.m_mutex};
@@ -108,7 +111,7 @@ namespace alexandria
     }
 
     template <typename U>
-    [[nodiscard]] bool operator>=(const thread_safe<U> &other)
+    [[nodiscard]] bool operator>=(const thread_safe<U>& other)
     {
       std::scoped_lock lockThis{m_mutex};
       std::scoped_lock lockOther{other.m_mutex};
@@ -121,6 +124,7 @@ namespace alexandria
       std::scoped_lock lock{m_mutex};
       m_object = std::move(value);
     }
+
     value_type load() const
     {
       std::scoped_lock lock{m_mutex};
@@ -129,19 +133,19 @@ namespace alexandria
 
     // Safely run a function on the object.
     template <typename Function>
-    auto invoke(const Function &f)
+    auto invoke(const Function& f)
     {
       std::scoped_lock lock{m_mutex};
       return f(m_object);
     }
 
     template <typename F, typename... Args>
-    auto invoke(F &&f, Args &&...args)
+    auto invoke(F&& f, Args&&... args)
     {
       std::scoped_lock lock{m_mutex};
       return f()
     }
   };
-}
+} // namespace alexandria
 
 #endif

@@ -19,7 +19,11 @@ SCENARIO("construct a range", "[unit][range]")
     {
       THEN("the constructor throws an exception")
       {
-        CHECK_THROWS_MATCHES(alex::range<float>{1.0, 0.0}, std::invalid_argument, Catch::Matchers::Message("alex::range minimum must be less than maximum"));
+        CHECK_THROWS_MATCHES(
+          alex::range<float>{1.0, 0.0},
+          std::invalid_argument,
+          Catch::Matchers::Message(
+            "alex::range minimum must be less than maximum"));
       }
     }
   }

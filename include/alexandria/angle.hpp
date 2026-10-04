@@ -21,10 +21,10 @@ namespace alexandria
     constexpr angle() = default;
 
     /// @brief Copy an angle.
-    constexpr angle(const angle &) = default;
+    constexpr angle(const angle&) = default;
 
     /// @brief Move an angle.
-    angle(angle &&) = default;
+    angle(angle&&) = default;
 
     // template <class Rep2>
     // constexpr explicit angle(const Rep2 &);
@@ -32,7 +32,7 @@ namespace alexandria
     // constexpr angle(const angle<Rep2, Period2> &);
 
     /// @brief Copy-assign an angle.
-    angle &operator=(const angle &) = default;
+    angle& operator=(const angle&) = default;
 
     /**
      * @brief Get the raw angle value.
@@ -48,10 +48,7 @@ namespace alexandria
      * @brief Unary +
      * @return A copy of *this.
      */
-    [[nodiscard]] constexpr angle operator+() const noexcept
-    {
-      return *this;
-    };
+    [[nodiscard]] constexpr angle operator+() const noexcept { return *this; }
 
     /**
      * @brief Unary -
@@ -83,40 +80,41 @@ namespace alexandria
   // Why aren't these noexcept and [[nodiscard]]?
   template <typename Rep1, typename Period1, typename Rep2, typename Period2>
   constexpr std::common_type_t<angle<Rep1, Period1>, angle<Rep2, Period2>>
-  operator+(const angle<Rep1, Period1> &, const angle<Rep2, Period2> &);
+  operator+(const angle<Rep1, Period1>&, const angle<Rep2, Period2>&);
 
   template <typename Rep1, typename Period1, typename Rep2, typename Period2>
   constexpr std::common_type_t<angle<Rep1, Period1>, angle<Rep2, Period2>>
-  operator-(const angle<Rep1, Period1> &, const angle<Rep2, Period2> &);
+  operator-(const angle<Rep1, Period1>&, const angle<Rep2, Period2>&);
 
   template <typename Rep1, typename Period, typename Rep2>
-  constexpr angle<std::common_type_t<Rep1, Rep2>, Period>
-  operator*(const angle<Rep1, Period> &, const Rep2 &);
+  constexpr angle<std::common_type_t<Rep1, Rep2>, Period> operator*(
+    const angle<Rep1, Period>&, const Rep2&);
 
   template <typename Rep1, typename Rep2, typename Period>
-  constexpr angle<std::common_type_t<Rep1, Rep2>, Period>
-  operator*(const Rep1 &, const angle<Rep2, Period> &);
+  constexpr angle<std::common_type_t<Rep1, Rep2>, Period> operator*(
+    const Rep1&, const angle<Rep2, Period>&);
 
   template <typename Rep1, typename Period, typename Rep2>
-  constexpr angle<std::common_type_t<Rep1, Rep2>, Period>
-  operator/(const angle<Rep1, Period> &, const Rep2 &);
+  constexpr angle<std::common_type_t<Rep1, Rep2>, Period> operator/(
+    const angle<Rep1, Period>&, const Rep2&);
 
   template <typename Rep1, typename Period1, typename Rep2, typename Period2>
   constexpr std::common_type_t<angle<Rep1, Period1>, angle<Rep2, Period2>>
-  operator/(const angle<Rep1, Period1> &, const angle<Rep2, Period2> &);
+  operator/(const angle<Rep1, Period1>&, const angle<Rep2, Period2>&);
 
   template <typename Rep1, typename Period, typename Rep2>
-  constexpr angle<std::common_type_t<Rep1, Rep2>, Period>
-  operator%(const angle<Rep1, Period> &, const Rep2 &);
+  constexpr angle<std::common_type_t<Rep1, Rep2>, Period> operator%(
+    const angle<Rep1, Period>&, const Rep2&);
 
   template <typename Rep1, typename Period1, typename Rep2, typename Period2>
   constexpr std::common_type_t<angle<Rep1, Period1>, angle<Rep2, Period2>>
-  operator%(const angle<Rep1, Period1> &, const angle<Rep2, Period2> &);
+  operator%(const angle<Rep1, Period1>&, const angle<Rep2, Period2>&);
 
   // Comparison
   // template <typename Rep1, typename Period1, typename Rep2, typename Period2>
   // requires std::three_way_comparable<std::common_type_t<Rep1, Rep2>>
-  // constexpr auto operator<=>(const angle<Rep1, Period1> &, const angle<Rep2, Period2> &);
+  // constexpr auto operator<=>(const angle<Rep1, Period1> &, const angle<Rep2,
+  // Period2> &);
 
   // Angle cast
   // Is this really necessary? Doesn't the constructor do this?
@@ -146,7 +144,7 @@ namespace alexandria
     constexpr arcminutes operator""_m(unsigned long long a) noexcept;
     constexpr degrees operator""_d(unsigned long long a) noexcept;
     constexpr hours operator""_h(unsigned long long a) noexcept;
-  }
-}
+  } // namespace literals
+} // namespace alexandria
 
 #endif

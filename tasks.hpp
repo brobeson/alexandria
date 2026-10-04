@@ -11,9 +11,9 @@ namespace alex
 
   public:
     using callable = Callable;
-    task(callable f) : m_task_function{f} {}
-  };
 
-}
+    task(callable f): m_task_function{f} {}
+  };
+} // namespace alex
 
 #endif

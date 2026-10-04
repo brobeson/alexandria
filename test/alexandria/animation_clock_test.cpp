@@ -9,15 +9,9 @@ namespace
     {
       animation_clock* m_clock{nullptr};
 
-      auto operator*() const
-      {
-        return m_clock->m_current;
-      }
+      auto operator*() const { return m_clock->m_current; }
 
-      bool operator!=(const iterator& b)
-      {
-        return false;
-      }
+      bool operator!=(const iterator& b) { return false; }
 
       iterator& operator++(int)
       {
@@ -32,15 +26,9 @@ namespace
       return *this;
     }
 
-    iterator begin()
-    {
-      return iterator{this};
-    }
+    iterator begin() { return iterator{this}; }
 
-    iterator end()
-    {
-      return iterator{this};
-    }
+    iterator end() { return iterator{this}; }
 
   private:
     std::chrono::seconds m_start{0};
@@ -51,8 +39,5 @@ namespace
 
 SCENARIO("We can loop over a clock", "[unit][animation]")
 {
-  for (const auto t : animation_clock{}.start(30s))
-  {
-    CHECK(true);
-  }
+  for (const auto t : animation_clock{}.start(30s)) { CHECK(true); }
 }

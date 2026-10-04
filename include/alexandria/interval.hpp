@@ -28,26 +28,26 @@ namespace alex
      * \a max.
      * \throw alex::unmet_expectation if \$ max \le min \$
      */
-    constexpr interval(value_type min, value_type max)
-        : m_minimum{std::move(min)}, m_maximum{std::move(max)}
+    constexpr interval(value_type min, value_type max):
+      m_minimum{std::move(min)}, m_maximum{std::move(max)}
     {
-      ALEX_EXPECTDS(m_minimum < m_maximum)
+      ALEX_EXPECTS(m_minimum < m_maximum)
     }
 
     /// Copy an interval.
-    constexpr interval(const interval &) = default;
+    constexpr interval(const interval&) = default;
 
     /// Move an interval.
-    constexpr interval(interval &&) = default;
+    constexpr interval(interval&&) = default;
 
     /// Destruct an interval.
     ~interval() = default;
 
     /// Copy-assign an interval.
-    constexpr interval &operator=(const interval &) = default;
+    constexpr interval& operator=(const interval&) = default;
 
     /// Move-assign an interval.
-    constexpr interval &operator=(interval &&) = default;
+    constexpr interval& operator=(interval&&) = default;
 
     /// \return the minimum bound of the interval
     [[nodiscard]] constexpr auto minimum() const noexcept { return m_minimum; }
@@ -67,7 +67,7 @@ namespace alex
      * \retval true \$ minimum() \le v \le maximum() \$
      * \retval false \$ v \lt minimum() \$ or \$ maximum() \lt v \$
      */
-    [[nodiscard]] constexpr auto contains(const value_type &v) const noexcept
+    [[nodiscard]] constexpr auto contains(const value_type& v) const noexcept
     {
       return m_minimum <= v && v <= m_maximum;
     }

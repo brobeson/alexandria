@@ -1,6 +1,6 @@
 if(NOT TARGET Catch2::Catch2WithMain)
   include("${alexandria_SOURCE_DIR}/cmake/CPM.cmake")
-  CPMAddPackage("gh:catchorg/Catch2@3.15.0" SYSTEM)
+  CPMAddPackage("gh:catchorg/Catch2@3.15.0" SYSTEM) # cspell:ignore catchorg
   list(APPEND CMAKE_MODULE_PATH $"{Catch2_SOURCE_DIR}/extras")
 endif()
 include(Catch)
