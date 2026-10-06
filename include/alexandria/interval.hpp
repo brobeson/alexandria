@@ -2,6 +2,7 @@
 #define ALEXANDRIA_INTERVAL_HPP
 
 #include "alexandria/errors.hpp"
+#include <algorithm>
 #include <stdexcept>
 #include <type_traits>
 #include <utility>

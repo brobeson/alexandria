@@ -34,6 +34,6 @@ jobs:
         uses: actions/checkout@v7
       - name: CMake Workflow
         run: cmake --workflow release
-        # env:
-        # Sets Visual Studio 17 2022 only on windows-latest, leaving it empty on other OSes
-        # CMAKE_GENERATOR: ${{ matrix.os == 'windows-latest' && 'Visual Studio 17 2022' || 'Ninja' }}
+        env:
+          # Sets Visual Studio 17 2022 only on windows-latest, leaving it empty on other OSes
+          CMAKE_GENERATOR: ${{ !startsWith(matrix.os, 'windows') && 'Ninja' || '' }}
