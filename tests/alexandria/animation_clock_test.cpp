@@ -13,7 +13,7 @@ namespace
 
       bool operator!=(const iterator& b) { return false; }
 
-      iterator& operator++(int)
+      iterator& operator++()
       {
         m_clock->m_current++;
         return *this;
@@ -39,5 +39,6 @@ namespace
 
 SCENARIO("We can loop over a clock", "[unit][animation]")
 {
+  using std::chrono_literals::operator""s;
   for (const auto t : animation_clock{}.start(30s)) { CHECK(true); }
 }

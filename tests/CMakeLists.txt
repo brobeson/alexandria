@@ -1,3 +1,19 @@
-add_executable(alexandria.test.alpha)
-target_sources(alexandria.test.alpha PRIVATE alpha.cpp)
-add_test(NAME alexandria.test.alpha COMMAND alexandria.test.alpha)
+if(NOT TARGET Catch2::Catch2WithMain)
+  include("${alexandria_SOURCE_DIR}/cmake/CPM.cmake")
+  CPMAddPackage(
+    URI "gh:catchorg/Catch2@3.15.0" # cspell:ignore catchorg
+    SYSTEM true
+  )
+  list(APPEND CMAKE_MODULE_PATH "${Catch2_SOURCE_DIR}/extras")
+endif()
+include(Catch)
+
+set(TESTS angle animation_clock range)
+foreach(TEST IN LISTS TESTS)
+  add_executable(alexandria.test.${TEST} alexandria/${TEST}_test.cpp)
+  target_link_libraries(
+    alexandria.test.${TEST}
+    PRIVATE alexandria::alexandria Catch2::Catch2WithMain
+  )
+  catch_discover_tests(alexandria.test.${TEST} ADD_TAGS_AS_LABELS)
+endforeach()

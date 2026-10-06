@@ -1,6 +1,7 @@
 #ifndef ALEXANDRIA_INTERVAL_HPP
 #define ALEXANDRIA_INTERVAL_HPP
 
+#include "alexandria/errors.hpp"
 #include <stdexcept>
 #include <type_traits>
 

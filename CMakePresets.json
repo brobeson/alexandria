@@ -4,6 +4,7 @@
     {
       "name": "base",
       "hidden": true,
+      "generator": "Ninja",
       "binaryDir": "build/${presetName}",
       "installDir": "build/${presetName}/install",
       "cacheVariables": {
@@ -31,22 +32,17 @@
   ],
   "testPresets": [
     {
-      "name": "base",
-      "hidden": true,
+      "name": "release",
+      "description": "Test the release build.",
+      "displayName": "Release Test",
+      "configurePreset": "release",
+      "configuration": "Release",
       "output": {
         "outputOnFailure": true
       },
       "execution": {
         "jobs": 0
       }
-    },
-    {
-      "name": "release",
-      "description": "Test the release build.",
-      "displayName": "Release Test",
-      "configurePreset": "release",
-      "configuration": "Release",
-      "inherits": ["base"]
     }
   ],
   "workflowPresets": [
