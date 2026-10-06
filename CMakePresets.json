@@ -11,6 +11,15 @@
       }
     },
     {
+      "name": "debug",
+      "inherits": "base",
+      "displayName": "Debug Configuration",
+      "description": "Debug build with no developer instrumentation.",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
       "name": "release",
       "inherits": "base",
       "displayName": "Release Configuration",
@@ -22,6 +31,13 @@
   ],
   "buildPresets": [
     {
+      "name": "debug",
+      "description": "Build the debug configuration.",
+      "displayName": "Debug Build",
+      "configurePreset": "debug",
+      "configuration": "Debug"
+    },
+    {
       "name": "release",
       "description": "Build the release configuration.",
       "displayName": "Release Build",
@@ -31,20 +47,43 @@
   ],
   "testPresets": [
     {
-      "name": "release",
-      "description": "Test the release build.",
-      "displayName": "Release Test",
-      "configurePreset": "release",
-      "configuration": "Release",
+      "name": "base",
+      "hidden": true,
       "output": {
         "outputOnFailure": true
       },
       "execution": {
         "jobs": 0
       }
+    },
+    {
+      "name": "debug",
+      "description": "Test the debug build.",
+      "displayName": "Debug Test",
+      "configurePreset": "debug",
+      "configuration": "Debug",
+      "inherits": ["base"]
+    },
+    {
+      "name": "release",
+      "description": "Test the release build.",
+      "displayName": "Release Test",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "inherits": ["base"]
     }
   ],
   "workflowPresets": [
+    {
+      "name": "debug",
+      "description": "Run a full debug workflow",
+      "displayName": "Debug Workflow",
+      "steps": [
+        { "type": "configure", "name": "debug" },
+        { "type": "build", "name": "debug" },
+        { "type": "test", "name": "debug" }
+      ]
+    },
     {
       "name": "release",
       "description": "Run a full release workflow",
