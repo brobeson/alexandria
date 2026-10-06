@@ -13,28 +13,20 @@ jobs:
 
   cpp:
     name: C++ Quality
-    runs-on: ubuntu-26.04
-    steps:
-      - name: Clone the repository
-        uses: actions/checkout@v7
-      - name: C++ Formatting
-        shell: bash --noprofile --norc -O globstar -eo pipefail {0}
-        # cspell:ignore Werror
-        run: clang-format -Werror --dry-run --style=file **/*.[ch]pp
-
-  cppBuild:
-    name: C++ Build
     strategy:
       matrix:
         os: [ubuntu-26.04, windows-2025-vs2026, macos-26-intel]
         workflow: [debug, release]
     runs-on: ${{matrix.os}}
     steps:
-      - run: echo ${CMAKE_GENERATOR}
       - name: Clone the repository
         uses: actions/checkout@v7
+      - name: C++ Formatting
+        if: ${{startsWith(matrix.os, 'ubuntu')}}
+        shell: bash --noprofile --norc -O globstar -eo pipefail {0}
+        # cspell:ignore Werror
+        run: clang-format -Werror --dry-run --style=file **/*.[ch]pp
       - name: CMake Workflow
-        run: cmake --workflow ${{matrix.workflow}}
         env:
-          # Sets Visual Studio 17 2022 only on windows-latest, leaving it empty on other OSes
-          CMAKE_GENERATOR: ${{ !startsWith(matrix.os, 'windows') && 'Ninja' || '' }}
+          CMAKE_GENERATOR: ${{!startsWith(matrix.os, 'windows') && 'Ninja' || ''}}
+        run: cmake --workflow ${{matrix.workflow}}
