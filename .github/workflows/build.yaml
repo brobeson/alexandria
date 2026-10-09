@@ -21,3 +21,5 @@ jobs:
         shell: bash --noprofile --norc -O globstar -eo pipefail {0}
         # cspell:ignore Werror
         run: clang-format -Werror --dry-run --style=file **/*.[ch]pp
+      - name: CMake Workflow
+        run: cmake --workflow release
