@@ -13,13 +13,19 @@ jobs:
 
   cpp:
     name: C++ Quality
-    runs-on: ubuntu-26.04
+    strategy:
+      matrix:
+        os: [ubuntu-26.04, windows-2025-vs2026, macos-26-intel]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Clone the repository
         uses: actions/checkout@v7
       - name: C++ Formatting
+        if: ${{ startsWith(matrix.os, 'ubuntu') }}
         shell: bash --noprofile --norc -O globstar -eo pipefail {0}
         # cspell:ignore Werror
         run: clang-format -Werror --dry-run --style=file **/*.[ch]pp
       - name: CMake Workflow
+        env:
+          CMAKE_GENERATOR: ${{ !startsWith(matrix.os, 'windows') && 'Ninja' || '' }}
         run: cmake --workflow release
