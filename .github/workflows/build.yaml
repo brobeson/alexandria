@@ -16,6 +16,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-26.04, windows-2025-vs2026, macos-26-intel]
+        workflow: [debug, release]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Clone the repository
@@ -28,4 +29,4 @@ jobs:
       - name: CMake Workflow
         env:
           CMAKE_GENERATOR: ${{ !startsWith(matrix.os, 'windows') && 'Ninja' || '' }}
-        run: cmake --workflow release
+        run: cmake --workflow ${{ matrix.workflow }}
