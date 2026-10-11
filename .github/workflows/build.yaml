@@ -29,4 +29,9 @@ jobs:
       - name: CMake Workflow
         env:
           CMAKE_GENERATOR: ${{ !startsWith(matrix.os, 'windows') && 'Ninja' || '' }}
+          CXX: ${{ startsWith(matrix.os, 'ubuntu') && 'clang++' || '' }}
+          CC: ${{ startsWith(matrix.os, 'ubuntu') && 'clang' || '' }}
         run: cmake --workflow ${{ matrix.workflow }}
+      - name: Clang Tidy
+        if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        run: run-clang-tidy -j $(nproc) -p build/${{ matrix.workflow }} -extra-arg=-Wno-unknown-warning-option

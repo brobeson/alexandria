@@ -1,0 +1,13 @@
+---
+# cspell:ignore altera llvmlibc
+Checks: >
+  *,
+  -altera*,
+  -android*,
+  -llvmlibc*,
+  -modernize-use-trailing-return-type
+WarningsAsErrors: "*"
+HeaderFileExtensions: [hpp]
+ImplementationFileExtensions: [cpp]
+FormatStyle: file
+CheckOptions: {}

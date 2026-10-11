@@ -7,7 +7,8 @@
       "binaryDir": "build/${presetName}",
       "installDir": "build/${presetName}/install",
       "cacheVariables": {
-        "BUILD_TESTING": true
+        "BUILD_TESTING": true,
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true
       }
     },
     {
