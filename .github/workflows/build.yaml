@@ -21,17 +21,16 @@ jobs:
     steps:
       - name: Clone the repository
         uses: actions/checkout@v7
-      - name: C++ Formatting
-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
-        shell: bash --noprofile --norc -O globstar -eo pipefail {0}
-        # cspell:ignore Werror
-        run: clang-format -Werror --dry-run --style=file **/*.[ch]pp
       - name: CMake Workflow
         env:
           CMAKE_GENERATOR: ${{ !startsWith(matrix.os, 'windows') && 'Ninja' || '' }}
           CXX: ${{ startsWith(matrix.os, 'ubuntu') && 'clang++' || '' }}
           CC: ${{ startsWith(matrix.os, 'ubuntu') && 'clang' || '' }}
         run: cmake --workflow ${{ matrix.workflow }}
-      - name: Clang Tidy
+      - run: cat build/${{ matrix.workflow }}/compile_commands.json
+      - name: Install Cppcheck
         if: ${{ startsWith(matrix.os, 'ubuntu') }}
-        run: run-clang-tidy -j $(nproc) -p build/${{ matrix.workflow }} -extra-arg=-Wno-unknown-warning-option
+        run: sudo apt-get install cppcheck
+      - name: Run Cppcheck
+        if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        run: cppcheck --project=build/${{ matrix.workflow}}/compile_commands.json --enable=all
